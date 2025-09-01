@@ -7,7 +7,7 @@ import AddProduct from "./components/AddProduct";
 import Product from "./components/Product";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 import UpdateProduct from "./components/UpdateProduct";
@@ -18,19 +18,17 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/add_product" element={<AddProduct />} />
-          <Route path="/product" element={<Product />} />
-          <Route path="product/:id" element={<Product />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/product/update/:id" element={<UpdateProduct />} />
-        </Routes>
-      </BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/add_product" element={<AddProduct />} />
+        <Route path="/product" element={<Product />} />
+        <Route path="product/:id" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/product/update/:id" element={<UpdateProduct />} />
+      </Routes>
     </Provider>
   );
 }
