@@ -1,29 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import AppContext from "../Context/Context";
-import unplugged from "../assets/unplugged.png"
+import { fetchProducts } from "../store/slices/productSlice";
+import { addToCart } from "../store/slices/cartSlice";
+import axios from "../axios";
+import unplugged from "../assets/unplugged.png";
 
-const Home = ({ selectedCategory }) => {
-  const { data, isError, addToCart, refreshData } = useContext(AppContext);
-  const [products, setProducts] = useState([]);
-  const [isDataFetched, setIsDataFetched] = useState(false);
-
-  useEffect(() => {
-    if (!isDataFetched) {
-      refreshData();
-      setIsDataFetched(true);
-    }
-  }, [refreshData, isDataFetched]);
+const Home = () => {
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.product);
+  const { user } = useSelector((state) => state.auth);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [productsWithImages, setProductsWithImages] = useState([]);
 
   useEffect(() => {
-    if (data && data.length > 0) {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (products && products.length > 0) {
       const fetchImagesAndUpdateProducts = async () => {
         const updatedProducts = await Promise.all(
-          data.map(async (product) => {
+          products.map(async (product) => {
             try {
               const response = await axios.get(
-                `http://localhost:8080/api/product/${product.id}/image`,
+                `/product/${product.id}/image`,
                 { responseType: "blob" }
               );
               const imageUrl = URL.createObjectURL(response.data);
@@ -38,18 +39,30 @@ const Home = ({ selectedCategory }) => {
             }
           })
         );
-        setProducts(updatedProducts);
+        setProductsWithImages(updatedProducts);
       };
 
       fetchImagesAndUpdateProducts();
     }
-  }, [data]);
+  }, [products]);
 
   const filteredProducts = selectedCategory
-    ? products.filter((product) => product.category === selectedCategory)
-    : products;
+    ? productsWithImages.filter((product) => product.category === selectedCategory)
+    : productsWithImages;
 
-  if (isError) {
+  const handleAddToCart = (product) => {
+    if (!user) {
+      alert("Please login to add items to cart");
+      return;
+    }
+    dispatch(addToCart({ userId: user.id, productId: product.id, quantity: 1 }));
+  };
+
+  if (loading) {
+    return <div className="text-center mt-5">Loading...</div>;
+  }
+
+  if (error) {
     return (
       <h2 className="text-center" style={{ padding: "18rem" }}>
       <img src={unplugged} alt="Error" style={{ width: '100px', height: '100px' }}/>
@@ -161,7 +174,7 @@ const Home = ({ selectedCategory }) => {
                       style={{margin:'10px 25px 0px '  }}
                       onClick={(e) => {
                         e.preventDefault();
-                        addToCart(product);
+                        handleAddToCart(product);
                       }}
                       disabled={!productAvailable}
                     >

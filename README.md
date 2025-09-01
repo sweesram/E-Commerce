@@ -1,135 +1,303 @@
+# E-Commerce Website - Spring Boot + React.js
 
+A full-stack e-commerce application built with Spring Boot (Backend) and React.js (Frontend) with Redux state management and user authentication.
 
-# 🛍️ Full Stack E-commerce Web Application
+## 🚀 Features
 
-A full-stack **E-commerce application** using **Spring Boot** (Java) for the backend and **ReactJS with Vite** for the frontend. This application demonstrates the integration of RESTful APIs with a modern frontend stack, ideal for learning and demonstration purposes.
+### Core Features
+- ✅ **Product Listing**: View all available products with images and details
+- ✅ **Product Detail View**: Detailed view of individual products
+- ✅ **Shopping Cart**: Add, remove, and manage cart items
+- ✅ **Search Functionality**: Search products by name or keyword
+- ✅ **Category Filtering**: Filter products by categories
+- ✅ **Responsive Design**: Mobile-friendly UI with Bootstrap
 
----
+### Bonus Features (Assignment Requirements)
+- ✅ **User Authentication**: Login and Registration system
+- ✅ **Redux State Management**: 3rd-party state management using Redux Toolkit
+- ✅ **RESTful API**: Complete backend API with proper HTTP methods
+- ✅ **Database Integration**: PostgreSQL/H2 database with JPA
+- ✅ **Image Upload**: Product image management
+- ✅ **Stock Management**: Real-time stock quantity tracking
 
-## 📁 Project Structure
+## 🏗️ Architecture
 
-```
-SpringBoot-Reactjs-Ecommerce-main/
-├── Ecommerce-Backend/       # Spring Boot REST API backend
-├── Ecommerce-Frontend/      # React + Vite frontend application
-```
-
----
-
-## 🧩 Backend - Spring Boot
-
-### 🔧 Technologies Used
-
-* Java 17+
-* Spring Boot
-* Spring Data JPA
-* MySQL (can be adapted)
-* Maven
-
-### 📂 Backend Directory Structure
+### High-Level Architecture Diagram
 
 ```
-Ecommerce-Backend/
-├── controller/      # REST endpoints
-├── model/           # JPA entity classes
-├── repo/            # Spring Data JPA interfaces
-├── service/         # Business logic
-├── resources/
-│   ├── application.properties
-│   └── data1.sql
-└── pom.xml          # Maven build config
+┌─────────────────┐    HTTP/REST    ┌─────────────────┐    Database    ┌─────────────────┐
+│   React.js      │ ◄────────────► │   Spring Boot   │ ◄────────────► │   PostgreSQL    │
+│   Frontend      │                 │   Backend       │                 │   Database      │
+│                 │                 │                 │                 │                 │
+│ ┌─────────────┐ │                 │ ┌─────────────┐ │                 │ ┌─────────────┐ │
+│ │   Redux     │ │                 │ │ Controllers │ │                 │ │   Users     │ │
+│ │   Store     │ │                 │ │             │ │                 │ │             │ │
+│ └─────────────┘ │                 │ └─────────────┘ │                 │ │   Products  │ │
+│ ┌─────────────┐ │                 │ ┌─────────────┐ │                 │ │             │ │
+│ │ Components  │ │                 │ │  Services   │ │                 │ │   Cart      │ │
+│ │             │ │                 │ │             │ │                 │ │             │ │
+│ │ - Home      │ │                 │ │ - Auth      │ │                 │ └─────────────┘ │
+│ │ - Product   │ │                 │ │ - Product   │ │                 │                 │
+│ │ - Cart      │ │                 │ │ - Cart      │ │                 │                 │
+│ │ - Login     │ │                 │ │ - User       │ │                 │                 │
+│ │ - Register  │ │                 │ └─────────────┘ │                 │                 │
+│ └─────────────┘ │                 │ ┌─────────────┐ │                 │                 │
+│ ┌─────────────┐ │                 │ │ Repositories│ │                 │                 │
+│ │   Axios     │ │                 │ │             │ │                 │                 │
+│ │ HTTP Client │ │                 │ └─────────────┘ │                 │                 │
+│ └─────────────┘ │                 │ ┌─────────────┐ │                 │                 │
+└─────────────────┘                 │ │   Models    │ │                 │                 │
+                                   │ │             │ │                 │                 │
+                                   │ │ - User      │ │                 │                 │
+                                   │ │ - Product   │ │                 │                 │
+                                   │ │ - Cart      │ │                 │                 │
+                                   │ └─────────────┘ │                 │                 │
+                                   └─────────────────┘                 └─────────────────┘
 ```
 
-### ⚙️ Setup Instructions
+### Technology Stack
 
-1. **Database Setup:**
+**Frontend:**
+- React.js 18
+- Redux Toolkit (State Management)
+- React Router DOM
+- Axios (HTTP Client)
+- Bootstrap 5 (UI Framework)
 
-   * Create a MySQL database, e.g., `ecomdb`.
-   * Update `application.properties`:
+**Backend:**
+- Spring Boot 3.3.3
+- Spring Data JPA
+- Spring Security
+- PostgreSQL/H2 Database
+- Maven (Build Tool)
 
-     ```properties
-     spring.datasource.url=jdbc:mysql://localhost:3306/ecomdb
-     spring.datasource.username=root
-     spring.datasource.password=yourpassword
-     spring.jpa.hibernate.ddl-auto=update
-     ```
+## 📦 Installation & Setup
 
-2. **Run the App:**
+### Prerequisites
+- Java 21 or higher
+- Node.js 16 or higher
+- npm or yarn
+- PostgreSQL (optional, H2 is used by default)
 
+### Backend Setup
+
+1. **Clone the repository**
    ```bash
-   cd Ecommerce-Backend
-   mvn spring-boot:run
+   git clone <repository-url>
+   cd SpringBoot-Reactjs-Ecommerce
    ```
 
-3. **Data Initialization:**
+2. **Navigate to backend directory**
+   ```bash
+   cd Ecommerce-Backend
+   ```
 
-   On first run, `data1.sql` inserts seed product data into your DB.
+3. **Configure database** (Optional - H2 is used by default)
+   Edit `src/main/resources/application.properties`:
+   ```properties
+   # For PostgreSQL
+   spring.datasource.url=jdbc:postgresql://localhost:5432/ecommerce
+   spring.datasource.username=your_username
+   spring.datasource.password=your_password
+   spring.jpa.hibernate.ddl-auto=update
+   ```
 
-### 📡 REST API Endpoints
+4. **Run the Spring Boot application**
+   ```bash
+   # Using Maven
+   ./mvnw spring-boot:run
+   
+   # Or using IDE
+   # Run EcomProjApplication.java
+   ```
 
-| Method | Endpoint         | Description        |
-| ------ | ---------------- | ------------------ |
-| GET    | `/products`      | Fetch all products |
-| GET    | `/products/{id}` | Get product by ID  |
-| POST   | `/products`      | Add new product    |
-| PUT    | `/products/{id}` | Update product     |
-| DELETE | `/products/{id}` | Delete product     |
+   The backend will start on `http://localhost:8080`
 
----
+### Frontend Setup
 
-## 💻 Frontend - React + Vite
-
-### 🔧 Technologies Used
-
-* ReactJS
-* Vite (bundler)
-* Axios (API calls)
-* Bootstrap (UI)
-* JavaScript (ES6+)
-
-### 📂 Frontend Directory Structure
-
-```
-Ecommerce-Frontend/
-├── public/
-├── src/
-│   ├── components/      # Reusable components
-│   ├── pages/           # Page-level components
-│   ├── App.jsx          # App layout
-│   └── main.jsx         # Entry point
-├── package.json
-└── vite.config.js
-```
-
-### ▶️ Getting Started
-
-1. **Install dependencies:**
-
+1. **Navigate to frontend directory**
    ```bash
    cd Ecommerce-Frontend
+   ```
+
+2. **Install dependencies**
+   ```bash
    npm install
    ```
 
-2. **Run the app:**
-
+3. **Start the development server**
    ```bash
    npm run dev
    ```
 
-   This will launch the frontend at `http://localhost:5173`.
+   The frontend will start on `http://localhost:5173`
 
-3. **Connect to Backend:**
+## 🎯 API Endpoints
 
-   Update the backend URL in API service files (usually inside `src/` or `src/services/`) if needed:
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
 
-   ```js
-   axios.get('http://localhost:8080/products')
+### Products
+- `GET /api/products` - Get all products
+- `GET /api/product/{id}` - Get product by ID
+- `POST /api/product` - Add new product
+- `PUT /api/product/{id}` - Update product
+- `DELETE /api/product/{id}` - Delete product
+- `GET /api/products/search?keyword={keyword}` - Search products
+- `GET /api/product/{id}/image` - Get product image
+
+### Cart
+- `GET /api/cart/{userId}` - Get user's cart
+- `POST /api/cart/add` - Add item to cart
+- `PUT /api/cart/{userId}/product/{productId}` - Update cart quantity
+- `DELETE /api/cart/{userId}/product/{productId}` - Remove item from cart
+- `DELETE /api/cart/{userId}` - Clear cart
+- `GET /api/cart/{userId}/total` - Get cart total
+
+## 🔐 Authentication Flow
+
+1. **Registration**: Users can create new accounts with email, password, and personal details
+2. **Login**: Users authenticate with email and password
+3. **Session Management**: JWT tokens for secure authentication
+4. **Protected Routes**: Cart and user-specific features require authentication
+
+## 🛒 Shopping Cart Features
+
+- Add products to cart with quantity selection
+- Real-time stock validation
+- Cart persistence across sessions
+- Quantity management (increase/decrease)
+- Remove items from cart
+- Cart total calculation
+- Checkout process with stock updates
+
+## 🎨 UI/UX Features
+
+- **Responsive Design**: Works on desktop, tablet, and mobile
+- **Dark/Light Theme**: Toggle between themes
+- **Search Functionality**: Real-time product search
+- **Category Filtering**: Filter products by category
+- **Product Images**: High-quality product images
+- **Loading States**: Smooth loading animations
+- **Error Handling**: User-friendly error messages
+
+## 📁 Project Structure
+
+```
+SpringBoot-Reactjs-Ecommerce/
+├── Ecommerce-Backend/
+│   ├── src/main/java/com/cart/ecom_proj/
+│   │   ├── controller/
+│   │   │   ├── ProductController.java
+│   │   │   ├── AuthController.java
+│   │   │   └── CartController.java
+│   │   ├── service/
+│   │   │   ├── ProductService.java
+│   │   │   ├── UserService.java
+│   │   │   └── CartService.java
+│   │   ├── model/
+│   │   │   ├── Product.java
+│   │   │   ├── User.java
+│   │   │   └── Cart.java
+│   │   ├── repo/
+│   │   │   ├── ProductRepo.java
+│   │   │   ├── UserRepo.java
+│   │   │   └── CartRepo.java
+│   │   └── config/
+│   │       └── SecurityConfig.java
+│   └── src/main/resources/
+│       └── application.properties
+├── Ecommerce-Frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Home.jsx
+│   │   │   ├── Product.jsx
+│   │   │   ├── Cart.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   └── Navbar.jsx
+│   │   ├── store/
+│   │   │   ├── store.js
+│   │   │   └── slices/
+│   │   │       ├── authSlice.js
+│   │   │       ├── cartSlice.js
+│   │   │       └── productSlice.js
+│   │   └── App.jsx
+│   └── package.json
+└── README.md
+```
+
+## 🚀 Deployment
+
+### Backend Deployment
+1. Build the JAR file:
+   ```bash
+   ./mvnw clean package
    ```
 
-### 🧩 Features
+2. Run the JAR file:
+   ```bash
+   java -jar target/ecom-proj-0.0.1-SNAPSHOT.jar
+   ```
 
-* Product List (from Spring Boot backend)
-* Dynamic rendering using React components
-* Fully responsive UI
-* Easy integration with further features (cart, checkout, login)
+### Frontend Deployment
+1. Build for production:
+   ```bash
+   npm run build
+   ```
+
+2. Deploy the `dist` folder to your hosting service (Netlify, Vercel, etc.)
+
+## 🧪 Testing
+
+### Backend Testing
+```bash
+cd Ecommerce-Backend
+./mvnw test
+```
+
+### Frontend Testing
+```bash
+cd Ecommerce-Frontend
+npm test
+```
+
+## 📝 Assignment Requirements Checklist
+
+- ✅ **Users can view all products** - Implemented in Home component
+- ✅ **Users can add items to cart** - Implemented with Redux cart management
+- ✅ **Users can view detailed product view** - Implemented in Product component
+- ✅ **Authentication (Login/Sign-Up)** - Implemented with Spring Security
+- ✅ **3rd-party state management** - Implemented with Redux Toolkit
+- ✅ **REST API communication** - Implemented with Axios
+- ✅ **Backend server** - Spring Boot with all required endpoints
+- ✅ **High-Level Architecture Diagram** - Included in README
+- ✅ **Codebase on GitHub** - Ready for repository hosting
+- ✅ **Setup instructions** - Comprehensive README with instructions
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Harish Kumar Gatti**
+- LinkedIn: [Harish Kumar Gatti](https://www.linkedin.com/in/harish-kumar-gatti-663066249/)
+- GitHub: [Your GitHub Profile]
+
+## 🙏 Acknowledgments
+
+- Spring Boot team for the excellent framework
+- React.js team for the frontend library
+- Redux Toolkit team for state management
+- Bootstrap team for the UI framework
 

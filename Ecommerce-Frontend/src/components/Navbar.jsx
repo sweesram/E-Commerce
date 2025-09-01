@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import Home from "./Home"
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../store/slices/authSlice";
+import axios from "../axios";
 // import { json } from "react-router-dom";
 // import { BiSunFill, BiMoon } from "react-icons/bi";
 
-const Navbar = ({ onSelectCategory, onSearch }) => {
+const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   const getInitialTheme = () => {
     const storedTheme = localStorage.getItem("theme");
     return storedTheme ? storedTheme : "light-theme";
@@ -82,7 +87,11 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
-    onSelectCategory(category);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
   };
   const toggleTheme = () => {
     const newTheme = theme === "dark-theme" ? "light-theme" : "dark-theme";
@@ -172,14 +181,31 @@ const Navbar = ({ onSelectCategory, onSearch }) => {
                 )}
               </button>
               <div className="d-flex align-items-center cart">
-                <a href="/cart" className="nav-link text-dark">
-                  <i
-                    className="bi bi-cart me-2"
-                    style={{ display: "flex", alignItems: "center" }}
-                  >
-                    Cart
-                  </i>
-                </a>
+                {isAuthenticated ? (
+                  <>
+                    <span className="nav-link text-dark me-3">
+                      Welcome, {user?.firstName}!
+                    </span>
+                    <Link to="/cart" className="nav-link text-dark me-3">
+                      <i className="bi bi-cart me-2">Cart</i>
+                    </Link>
+                    <button
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="nav-link text-dark me-3">
+                      Login
+                    </Link>
+                    <Link to="/register" className="nav-link text-dark">
+                      Register
+                    </Link>
+                  </>
+                )}
                 {/* <form className="d-flex" role="search" onSubmit={handleSearch} id="searchForm"> */}
                 <input
                   className="form-control me-2"
